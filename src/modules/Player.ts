@@ -23,7 +23,7 @@ export class Player {
     })
 
     window.addEventListener('click', () => {
-      this.game.projectiles.push(new Projectile(this.x + this.width / 2, this.y + 5))
+      this.game.projectiles.push(new Projectile(this.game, this.x + this.width / 2, this.y + 5))
     })
   }
 

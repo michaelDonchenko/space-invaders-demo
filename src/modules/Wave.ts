@@ -1,75 +1,46 @@
 import {Enemy} from './Enemy'
 import {Game} from './Game'
 
-export class Wave {
-  public game: Game
-  public enemies: Enemy[]
-  public width
-  public height
-  public x
-  public y
-  public speedX
-  public speedY
-  public rows
-  public columns
-  public fps
-  public frameInterval
-  public frameTimer
+interface WaveOptions {
+  enemyName: string
+  rows: number
+  columns: number
+}
 
-  constructor(
-    game: Game,
-    x: number,
-    y: number,
-    speedX: number,
-    speedY: number,
-    rows: number,
-    columns: number,
-    enemyWidth: number,
-    enemyHeight: number
-  ) {
+export class Wave {
+  game: Game
+  enemies: Enemy[]
+  config: WaveOptions
+
+  constructor(game: Game, options: WaveOptions) {
     this.game = game
     this.enemies = []
-    this.x = x
-    this.y = y
-    this.speedX = speedX
-    this.speedY = speedY
-    this.rows = rows
-    this.columns = columns
-    this.width = this.rows * enemyWidth
-    this.height = this.columns * enemyHeight
-    this.fps = 60
-    this.frameInterval = 1000 / this.fps
-    this.frameTimer = 0
-
-    this.createEnemies(enemyWidth, enemyHeight)
+    this.config = options
   }
 
-  update(deltaTime: number) {
-    if (this.frameTimer > this.frameInterval) {
-      this.frameTimer = 0
-      this.enemies.forEach((enemy) => enemy.update(this.speedX))
-      this.x += this.speedX
+  // update(deltaTime: number) {
+  //   this.enemies.forEach((enemy) => enemy.update(this.speedX))
+  //   this.x += this.speedX
 
-      if (this.x + this.width > this.game.width || this.x < 0) {
-        this.speedX *= -1
-      }
-    } else {
-      this.frameTimer += deltaTime
-    }
-  }
+  //   if (this.x + this.width > this.game.width || this.x < 0) {
+  //     this.speedX *= -1
+  //   }
+  // }
 
-  draw(context: CanvasRenderingContext2D) {
-    this.enemies.forEach((enemy) => enemy.draw(context))
-  }
+  // draw(context: CanvasRenderingContext2D) {
+  //   this.enemies.forEach((enemy) => enemy.draw(context))
+  //   context.strokeStyle = 'white'
+  //   context.strokeRect(this.x, this.y, this.width, this.height)
+  // }
 
-  createEnemies(enemyWidth: number, enemyHeight: number) {
-    for (let x = 0; x < this.rows; x++) {
-      for (let y = 0; y < this.columns; y++) {
-        const enemyX = x * enemyWidth
-        const enemyY = y * enemyHeight
+  // createEnemies(enemyWidth: number, enemyHeight: number) {
+  //   for (let x = 0; x < this.rows; x++) {
+  //     for (let y = 0; y < this.columns; y++) {
+  //       const enemyX = x * enemyWidth
+  //       const enemyY = y * enemyHeight + 20
 
-        this.enemies.push(new Enemy(this.game, enemyX, enemyY, enemyWidth, enemyHeight))
-      }
-    }
-  }
+  //       this.enemies.push(new Enemy(this.game, enemyX, enemyY, enemyWidth, enemyHeight))
+  //     }
+  //   }
+  // }
 }

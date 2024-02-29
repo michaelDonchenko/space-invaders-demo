@@ -1,20 +1,29 @@
-export class Projectile {
-  public x
-  public y
-  public speed
-  public width
-  public height
+import {collisionDetection} from '../utils'
+import {Game} from './Game'
 
-  constructor(x: number, y: number) {
+export class Projectile {
+  x
+  y
+  speed
+  width
+  height
+  game: Game
+
+  constructor(game: Game, x: number, y: number) {
     this.x = x
     this.y = y
     this.speed = 25
-    this.width = 3
-    this.height = 6
+    this.width = 4
+    this.height = 10
+    this.game = game
   }
 
   update() {
     this.y -= this.speed
+    if (collisionDetection(this, this.game.enemy)) {
+      this.game.projectiles = this.game.projectiles.filter((projectile) => projectile !== this)
+      this.game.enemy.hp -= 10
+    }
   }
 
   draw(context: CanvasRenderingContext2D) {
