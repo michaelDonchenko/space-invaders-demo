@@ -1,28 +1,30 @@
-import {Enemy} from './Enemy'
 import {Player} from './Player'
 import {Projectile} from './Projectile'
 import {Wave} from './Wave'
 
 const wave1 = {
-  enemyName: 'regular',
+  enemy: 'default',
   rows: 5,
-  columns: 5,
-}
+  columns: 8,
+  xOffset: 20,
+  yOffset: -500,
+  speed: 2,
+  targetY: 20,
+} as const
 
 export class Game {
   width
   height
   player
   projectiles: Projectile[]
-  enemy: Enemy
+  wave: Wave
 
   constructor(width: number, height: number) {
     this.width = width
     this.height = height
     this.player = new Player(this)
     this.projectiles = []
-    this.enemy = new Enemy(this, 200, 200, 31, 39)
-    // this.wave = new Wave(this, wave1)
+    this.wave = new Wave(this, wave1)
   }
 
   update(deltaTime: number) {
@@ -34,7 +36,8 @@ export class Game {
         this.projectiles.splice(index, 1)
       }
     })
-    this.enemy.update(0)
+
+    this.wave.update(deltaTime)
   }
 
   draw(context: CanvasRenderingContext2D) {
@@ -42,6 +45,6 @@ export class Game {
     this.projectiles.forEach((projectile) => {
       projectile.draw(context)
     })
-    this.enemy.draw(context)
+    this.wave.draw(context)
   }
 }

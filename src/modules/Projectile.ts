@@ -20,10 +20,12 @@ export class Projectile {
 
   update() {
     this.y -= this.speed
-    if (collisionDetection(this, this.game.enemy)) {
-      this.game.projectiles = this.game.projectiles.filter((projectile) => projectile !== this)
-      this.game.enemy.hp -= 10
-    }
+    this.game.wave.enemies.forEach((enemy) => {
+      if (collisionDetection(this, enemy)) {
+        this.game.projectiles = this.game.projectiles.filter((projectile) => projectile !== this)
+        enemy.hp -= 10
+      }
+    })
   }
 
   draw(context: CanvasRenderingContext2D) {
